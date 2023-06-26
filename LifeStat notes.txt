@@ -1,0 +1,15 @@
+Planning:
+ - daily
+ - weekly
+ - monthly
+ - yearly
+
+
+- goals that have due dates should force users to give a reason if they didn't complete it
+
+
+Lifemap:
+ - set duration
+ - setup big goals within lifemap
+ - setup recurring goals
+ - everyday setup and complete goals

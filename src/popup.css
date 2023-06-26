@@ -1,0 +1,74 @@
+.input-field {
+  @apply w-full p-1 my-3 rounded-lg text-gray-800;
+}
+
+.input-button {
+  @apply inline-block px-3 py-1 rounded-lg mt-3;
+}
+
+/* .popup {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+  
+  .popupBox {
+    width: 400px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    color: #333;
+  }
+  
+  .popupBox h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .popupBox input,
+  .popupBox select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .popupBox input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  .popupBox .addButton,
+  .popupBox .closeButton {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4caf50;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .popupBox .addButton:hover,
+  .popupBox .closeButton:hover {
+    background-color: #45a049;
+  }
+  
+  .popupBox .closeButton {
+    background-color: #f44336;
+  }
+  
+  .popupBox .closeButton:hover {
+    background-color: #e53935;
+  }
+   */
