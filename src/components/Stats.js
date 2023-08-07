@@ -3,18 +3,18 @@ import Stat from './Stat';
 
 export default function Stats ({stats, setStats}) {
     const [loading, setLoading] = useState(true);
-    const [jwt] = useState(localStorage.getItem("jwt"));
     
     useEffect(() => {
       const fetchData = async () => {        
-        const url = "/stat";
-        const response = await fetch(url, {headers: {Authorization: "Bearer "+jwt}});
-        console.log(response.status);
+        const url = process.env.REACT_APP_BACKEND_URL + "/stat";
+        const response = await fetch(url, {headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        }});
         const data = await response.json();
         setStats(data);
         setLoading(false);
 
-        console.log(data)
       };
       fetchData();
     }, []);

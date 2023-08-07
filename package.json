@@ -2,7 +2,6 @@
   "name": "trying-react",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://18.220.50.158:8080",
   "homepage": "https://martinharriott.github.io/lifestat/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
 
@@ -9,15 +10,16 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [validConfirmPassword, setValidConfirmPassword] = useState(null);
     const [usernameErrorMsg, setUsernameErrorMsg] = useState("Username must be 4-15 characters long with no special characters.");
-    const url = "/auth/register";
-    const usernamePattern = /^[a-zA-Z0-9]{4,15}$/;
-    const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{6,}$/;
+    const url = process.env.REACT_APP_BACKEND_URL + "/auth/register";
+    const usernamePattern = /^[a-zA-Z0-9]{3,15}$/;
+    const passwordPattern = /^(?=.*[A-Z]).{6,}$/;
+    const navigate = useNavigate();
 
     
     async function performRegister() {
       if (!passwordPattern.test(password)) setValidPassword(false);
       if (!usernamePattern.test(username)) {
-        setUsernameErrorMsg("Username must be 4-15 characters long with no special characters.");
+        setUsernameErrorMsg("Username must be 3-15 characters long with no special characters.");
         setValidUsername(false);
       }
       if (password !== confirmPassword) setValidConfirmPassword(false);
@@ -27,7 +29,6 @@ export default function Register() {
       userName: username,
       password: password 
       };
-      console.log(data);
       const response = await fetch(url, {method: "POST", headers: {
       "Content-Type": "application/json",
       }, body: JSON.stringify(data)});
@@ -38,7 +39,7 @@ export default function Register() {
         setValidUsername(false);
         return;
       }
-      window.location.href = '/login';
+      navigate('/login');
     }
 
     const updateUsername = (e) => {
@@ -66,7 +67,7 @@ export default function Register() {
           </div>
           <div className="m-2">
             <input className="pl-1 pr-1 rounded-md w-80" type="email" id="username" value={username} onChange={updateUsername}
-            onBlur={() => {setUsernameErrorMsg("Username must be 4-15 characters long with no special characters."); setValidUsername(usernamePattern.test(username))}}
+            onBlur={() => {setUsernameErrorMsg("Username must be 3-15 characters long with no special characters."); setValidUsername(usernamePattern.test(username))}}
             ></input>
             {validUsername === false ? <span className="error-message w-80">{usernameErrorMsg}</span> : <></>}
           </div>
@@ -75,7 +76,7 @@ export default function Register() {
           </div>
           <div className="m-2">
             <input className="pl-1 pr-1 rounded-md w-80" type="password" id="password" value={password} onChange={updatePassword} onBlur={() => setValidPassword(passwordPattern.test(password))}></input>
-            {validPassword === false ? <span className="error-message w-80">Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character</span> : <></>}
+            {validPassword === false ? <span className="error-message w-80">Password must be at least 6 characters long and contain at least one uppercase letter</span> : <></>}
           </div>
           <div className="m-2">
           Confirm Password: 
@@ -86,7 +87,7 @@ export default function Register() {
           </div>
         <button className="bg-gray-800 text-gray-50 rounded-lg py-2 px-4 m-2 hover:bg-gray-600" id="submit" type="button" onClick={performRegister}>Register</button>
         <div className="flex justify-center mt-4">
-            <button className="block text-center p-2 rounded-lg hover:bg-gray-300" id="submit" type="button" onClick={() => window.location.href = '/login'}>
+            <button className="block text-center p-2 rounded-lg hover:bg-gray-300" id="submit" type="button" onClick={() => navigate('/login')}>
               Have an account? Login instead.
             </button>
           </div>

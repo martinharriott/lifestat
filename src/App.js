@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Stats from "./components/Stats";
 import GoalList from "./components/GoalList";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import RequireAuth from "./components/RequireAuth";
@@ -12,12 +12,15 @@ function App() {
   const [stats, setStats] = useState([]);
   const [showCompleted, setShowCompleted] = useState(false);
   const [goals, setGoals] = useState([]);
+  const navigate = useNavigate();
 
   function handleLogout() {
     console.log("logout");
     localStorage.setItem("jwt", "");
-    window.location.href = '/login';
+    navigate('/login');
   }
+
+  document.title = "LifeStat"
 
   return (
     <div className="font-sans p-16">

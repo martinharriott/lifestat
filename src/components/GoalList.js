@@ -6,8 +6,9 @@ export default function GoalList({ goals, setGoals, stats, setStats }) {
   
   const [showCompleted, setShowCompleted] = useState(false);
   const [buttonPopup, setButtonPopup] = useState(false);
-  let url = "/goal";
-  let completedURL = "/goal/complete";
+  const [dueDate, setDueDate] = useState(new Date());
+  let url = process.env.REACT_APP_BACKEND_URL+"/goal";
+  let completedURL = process.env.REACT_APP_BACKEND_URL+"/goal/complete";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +20,6 @@ export default function GoalList({ goals, setGoals, stats, setStats }) {
       });
       const data = await response.json();
       data.reverse();
-      console.log(data);
       setGoals(data);
     }
     fetchData();
@@ -31,14 +31,15 @@ export default function GoalList({ goals, setGoals, stats, setStats }) {
     };
 
     const newGoals = goals.map((goal) => goal.id === goalId ? { ...goal, completed: !goal.completed } : goal);
-    
-    await fetch(completedURL, {method: "POST", headers: {
+    const goal = goals.find((goal) => goal.id === goalId);
+
+    const stat = await fetch(completedURL, {method: "POST", headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer "+localStorage.getItem("jwt")
       }, body: JSON.stringify(data)});
+    const newStats = stats.map((stat) => stat.name === goal.statName ? { ...stat, value: stat.value + goal.statValue } : stat);
     setGoals(newGoals);
-    const statsRes = await fetch("/stat", {headers: {Authorization: "Bearer "+localStorage.getItem("jwt")}});
-    setStats(await statsRes.json());
+    setStats(newStats);
   }
   
   async function deleteGoal(id) {
@@ -57,15 +58,12 @@ export default function GoalList({ goals, setGoals, stats, setStats }) {
   }
 
   async function updateGoal(data) {
-    console.log("save ");
     const response = await fetch(url, {method: "PUT", headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${localStorage.getItem("jwt")}`
     }, body: JSON.stringify(data)});
     const addedGoal = await response.json();
     setGoals(goals.map(e => e.id === addedGoal.id ? addedGoal : e));
-
-    console.log(addedGoal);
   }
 
   function handleGoalPopup(e) {
@@ -84,7 +82,7 @@ export default function GoalList({ goals, setGoals, stats, setStats }) {
         })}
       </div>
     </div>
-    <CreateGoalPopUp trigger={buttonPopup} setTrigger={setButtonPopup} setGoals={setGoals} stats={stats} dueDate={new Date()}>
+    <CreateGoalPopUp trigger={buttonPopup} setTrigger={setButtonPopup} setGoals={setGoals} stats={stats} dueDate={dueDate} setDueDate={setDueDate}>
     </CreateGoalPopUp>
     </>
   )

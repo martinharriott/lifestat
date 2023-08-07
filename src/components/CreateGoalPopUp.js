@@ -13,7 +13,7 @@ export default function CreateGoalPopUp(props) {
     const [statName, setStatName] = useState("");
     const [statValue, setStatValue] = useState(1);
     const trigger = props.trigger;
-    const url = "/goal";
+    const url = process.env.REACT_APP_BACKEND_URL+"/goal";
 
     function closePopup() {
         setStatName("");
@@ -25,7 +25,6 @@ export default function CreateGoalPopUp(props) {
         const description = descriptionRef.current.value;
         let statNameValue;
         if (statName === undefined || statName === "") {
-            console.log("gotta update "+stats[0].name);
             setStatName(stats[0].name);
             statNameValue = stats[0].name;
         }
@@ -34,7 +33,6 @@ export default function CreateGoalPopUp(props) {
         }
 
         if (name === '') return;
-        console.log(statName);
         const data = { 
             name: name,
             description: description,
@@ -59,7 +57,6 @@ export default function CreateGoalPopUp(props) {
 
     function changeStatValue(value) {
         if (value < 1) {
-            console.log("under");
             setStatValue(1);
         }
         else if (value > 100) {

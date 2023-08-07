@@ -1,32 +1,35 @@
 import { useState } from "react";
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const url = "/auth/login";
+  const [validLogin, setValidLogin] = useState(true);
+  const errorMsg = "Invalid credentials";
+  const url = process.env.REACT_APP_BACKEND_URL + "/auth/login";
+  const navigate = useNavigate();
   
   async function performLogin() {
     const data = {
       userName: username,
       password: password 
     };
-    console.log(data);
     const response = await fetch(url, {method: "POST", headers: {
       "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*'
     }, body: JSON.stringify(data)});
+
+    if (response.status === 401) {
+      setValidLogin(false);
+      return;
+    }
+
     Promise.all([response.json(), response.headers])
     .then(([body, headers]) => {
-      console.log(headers);
-      console.log(headers.get("authorization"));
-      console.log(body.token);
       localStorage.setItem("jwt", body.token);
-
+      navigate('/');
     })
-    //const auth = response.headers.get("Content-Type");
-    //console.log(auth);
-    console.log("login");
-    window.location.href = '/';
   }
   return (
     <>
@@ -47,8 +50,9 @@ export default function Login() {
             <input className="ml-auto pl-1 pr-1 rounded-md w-80" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
           </div>
           <button className="bg-gray-800 text-gray-50 rounded-lg py-2 px-4 m-2 hover:bg-gray-600" id="submit" type="button" onClick={performLogin}>Login</button>
+          {validLogin === false ? <span className="error-message w-80">{errorMsg}</span> : <></>}
           <div className="flex justify-center mt-4">
-            <button className="block text-center p-2 rounded-lg hover:bg-gray-300" id="submit" type="button" onClick={() => window.location.href = '/register'}>
+            <button className="block text-center p-2 rounded-lg hover:bg-gray-300" id="submit" type="button" onClick={() => navigate('/register')}>
               Create an account.
             </button>
           </div>

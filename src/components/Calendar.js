@@ -82,7 +82,7 @@ export default function Calendar({goals, setGoals, stats}) {
         {generateCalendarDays()}
       </div>
     </div>
-    <CreateGoalPopUp trigger={buttonPopup} setTrigger={setButtonPopup} setGoals={setGoals} stats={stats} dueDate={selectedDate}>
+    <CreateGoalPopUp trigger={buttonPopup} setTrigger={setButtonPopup} setGoals={setGoals} stats={stats} dueDate={selectedDate} setDueDate={setSelectedDate}>
     </CreateGoalPopUp>
     </>
   );

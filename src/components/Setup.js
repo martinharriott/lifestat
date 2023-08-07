@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "../setup.css";
+import { useNavigate } from 'react-router-dom';
 
 export default function Setup() {
 
@@ -18,7 +19,8 @@ export default function Setup() {
     const [charisma, setCharisma] = useState(50);
     const [charismaGoal, setCharismaGoal] = useState(100);
     const [jwt] = useState(localStorage.getItem("jwt"));
-    const url = "/stat/calculate";
+    const url = process.env.REACT_APP_BACKEND_URL+"/stat/calculate";
+    const navigate = useNavigate();
 
     const statNames = ["knowledge", "strength", "resources", "health", "charisma"];
     
@@ -67,9 +69,10 @@ export default function Setup() {
             };
             await fetch(url, {method: "POST", headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${jwt}`
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+                'Access-Control-Allow-Origin': '*'
               }, body: JSON.stringify(data)});
-            window.location.href = '/';
+            navigate('/home');
             return;
         }
         setIndex(index + 1);
